@@ -1,0 +1,3 @@
+/home/trueno/CLionProjects/FEM-Code-Cpp/cmake-build-debug/CMakeFiles/FEM_code.dir
+/home/trueno/CLionProjects/FEM-Code-Cpp/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/trueno/CLionProjects/FEM-Code-Cpp/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,4 @@
+# ninja log v6
+4	751	1728818787697460974	CMakeFiles/FEM_code.dir/main.cpp.o	31e3cf0783e2d8d7
+752	1315	1728818788444518523	CMakeFiles/FEM_code.dir/Node/Node.cpp.o	5fed6b2f415ba1e9
+1315	1387	1728818789008561973	FEM_code	dd9bd8da3c1366d2

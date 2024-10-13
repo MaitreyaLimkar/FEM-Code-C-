@@ -5,4 +5,6 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(FEM_code main.cpp
         Node/Node.hpp
-        Node/Node.cpp)
+        Node/Node.cpp
+        Preprocess/Mesh_1D.hpp
+        Preprocess/Mesh_1D.cpp)
