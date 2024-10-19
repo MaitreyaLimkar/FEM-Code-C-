@@ -8,3 +8,7 @@ add_executable(FEM_code main.cpp
         Node/Node.cpp
         Preprocess/Mesh_1D.hpp
         Preprocess/Mesh_1D.cpp)
+
+find_package(Eigen3 REQUIRED)
+include_directories(${EIGEN3_INCLUDE_DIR})
+target_link_libraries(FEM_Code Eigen3::Eigen)
