@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/CLion.iml" filepath="$PROJECT_DIR$/.idea/CLion.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/FEM-Code-Cpp.iml" filepath="$PROJECT_DIR$/.idea/FEM-Code-Cpp.iml" />
     </modules>
   </component>

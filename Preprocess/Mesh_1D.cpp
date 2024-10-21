@@ -3,10 +3,7 @@
 //
 
 #include "Mesh_1D.hpp"
-#include <algorithm>
-#include <iostream>
-#include <Eigen/Dense>
-
+// #include <Eigen/Dense>
 // Constructor definition
 Mesh_1D::Mesh_1D(const int PD, const double domain_size, const int partition, const int element_order)
     : PD(PD), partition(partition), element_order(element_order), domain_size(domain_size){}

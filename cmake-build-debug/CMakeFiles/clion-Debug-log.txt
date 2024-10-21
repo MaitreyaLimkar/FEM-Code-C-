@@ -1,4 +1,4 @@
-/snap/clion/296/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/296/bin/ninja/linux/x64/ninja -DCMAKE_C_COMPILER=/bin/gcc -DCMAKE_CXX_COMPILER=/bin/g++ -G Ninja -S /home/trueno/CLionProjects/FEM-Code-Cpp -B /home/trueno/CLionProjects/FEM-Code-Cpp/cmake-build-debug
--- Configuring done (0.0s)
+"D:\C++\CLion\CLion 2024.2.2\bin\cmake\win\x64\bin\cmake.exe" -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=D:/C++/CLion/CLion 2024.2.2/bin/ninja/win/x64/ninja.exe" "-DCMAKE_TOOLCHAIN_FILE=C:\Users\Maitreya Limkar\.vcpkg-clion\vcpkg\scripts\buildsystems\vcpkg.cmake" -G Ninja -S "D:\Maitreya_Docs\Education\MS_in_Deutschland\FAU-Erlangen\Comp_Eng\Studies\3_WiSe_2024-25\FEM Project\C++ FEM Code\CLion" -B "D:\Maitreya_Docs\Education\MS_in_Deutschland\FAU-Erlangen\Comp_Eng\Studies\3_WiSe_2024-25\FEM Project\C++ FEM Code\CLion\cmake-build-debug"
+-- Configuring done (1.0s)
 -- Generating done (0.0s)
--- Build files have been written to: /home/trueno/CLionProjects/FEM-Code-Cpp/cmake-build-debug
+-- Build files have been written to: D:/Maitreya_Docs/Education/MS_in_Deutschland/FAU-Erlangen/Comp_Eng/Studies/3_WiSe_2024-25/FEM Project/C++ FEM Code/CLion/cmake-build-debug
