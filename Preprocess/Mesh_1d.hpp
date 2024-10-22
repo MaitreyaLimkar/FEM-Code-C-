@@ -1,36 +1,40 @@
-#include <iostream>
-#include "Preprocess/Mesh_1D.hpp"
-//#include "eigen-3.4.0/Eigen/Dense"
+//
+// Created by trueno on 10/13/24.
+//
 
-int main() {
-    // Problem input parameters (using const)
-    constexpr int PD = 1;               // 1D problem
-    constexpr double domain_size = 10.0; // size of the domain
-    constexpr int partition = 10;       // number of partitions
-    constexpr int element_order = 1;    // Linear elements
+#ifndef MESH_1D_HPP
+#define MESH_1D_HPP
 
-    // Create 1D mesh
-    Mesh_1D mesh(PD, domain_size, partition, element_order);
-    mesh.generate_mesh();
+#include <vector>
+//#include "../eigen-3.4.0/Eigen/Dense"
 
-    // Retrieve nodes and elements
-    //const Eigen::VectorXd nodes = mesh.getNodes();
-    //const Eigen::MatrixXd elements = mesh.getElements();
-    std::vector<double> nodes = mesh.getNodes();
-    std::vector<std::vector<double>> elements = mesh.getElements();
+// Mesh_1D class declaration
+class Mesh_1D {
+private:
+    // Initializing the variables
+    int PD = 0, partition = 0, element_order = 0;
+    double domain_size = 0.0;
+    std::vector<double> NL, EL_1, EL_2, EL_3;
 
-    // Print Nodes and Elements (for testing purposes)
-    //std::cout << "Nodes:\n" << nodes << std::endl;
-    //std::cout << "Elements:\n" << elements << std::endl;
-    std::cout << "Nodes:\n";
-    for (const auto& node : nodes) {
-        std::cout << node << " ";
-    }
-    std::cout << "\nElements:\n";
-    for (const auto& element : elements) {
-        for (const auto& el : element) {
-            std::cout << el << " ";
-        }
-        std::cout << "\n";
-    }
-}
+    //   Eigen::VectorXd nodes;
+    //   Eigen::MatrixXd elements;
+    std::vector<double> nodes;
+    std::vector<std::vector<double>> elements;
+
+    void generateIndividualMesh();
+
+public:
+    // Constructor for Mesh_1D
+    Mesh_1D(int PD, double domain_size, int partition, int element_order);
+
+    // Generation of mesh
+    void generate_mesh();
+
+    // Getters for nodes and elements
+    // Eigen::VectorXd getNodes();
+    // Eigen::MatrixXi getElements();
+    std::vector<double> getNodes();
+    std::vector<std::vector<double>> getElements();
+};
+
+#endif //MESH_1D_HPP
