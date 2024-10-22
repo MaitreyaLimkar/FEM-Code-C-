@@ -5,4 +5,6 @@ set(CMAKE_CXX_STANDARD 23)
 
 add_executable(FEM_code main.cpp
         Node/Node.hpp
-        Node/Node.cpp)
+        Node/Node.cpp
+        Initialize/Initialize.hpp
+        Initialize/Initialize.cpp)
