@@ -6,7 +6,7 @@
 #define MESH_1D_HPP
 
 #include <vector>
-#include "../eigen-3.4.0/Eigen/Dense"
+//#include "../eigen-3.4.0/Eigen/Dense"
 
 // Mesh_1D class declaration
 class Mesh_1D {
@@ -16,8 +16,10 @@ private:
     double domain_size = 0.0;
     std::vector<double> NL, EL_1, EL_2, EL_3;
 
-    Eigen::VectorXd nodes;
-    Eigen::MatrixXd elements;
+    //   Eigen::VectorXd nodes;
+    //   Eigen::MatrixXd elements;
+    std::vector<double> nodes;
+    std::vector<std::vector<double>> elements;
 
     void generateIndividualMesh();
 
@@ -29,8 +31,10 @@ public:
     void generate_mesh();
 
     // Getters for nodes and elements
-    Eigen::VectorXd getNodes();
-    Eigen::MatrixXi getElements();
+    // Eigen::VectorXd getNodes();
+    // Eigen::MatrixXi getElements();
+    std::vector<double> getNodes();
+    std::vector<std::vector<double>> getElements();
 };
 
 #endif //MESH_1D_HPP
