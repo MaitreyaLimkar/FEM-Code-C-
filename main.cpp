@@ -1,8 +1,24 @@
 #include <iostream>
-#include <string>
-
+#include "Preprocess/Mesh_1D.hpp"
+#include "eigen-3.4.0/Eigen/Dense"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    return 0;
+    // Problem input parameters (using const)
+    constexpr int PD = 1;               // 1D problem
+    constexpr double domain_size = 1.0; // size of the domain
+    constexpr int partition = 10;       // number of partitions
+    constexpr int element_order = 1;    // Linear elements
+
+    // Create 1D mesh
+    Mesh_1D mesh(PD, domain_size, partition, element_order);
+    mesh.generate_mesh();
+
+    // Retrieve nodes and elements
+    const Eigen::VectorXd nodes = mesh.getNodes();
+    const Eigen::MatrixXd elements = mesh.getElements();
+
+    // Print Nodes and Elements (for testing purposes)
+    std::cout << "Nodes:\n" << nodes << std::endl;
+
+    std::cout << "Elements:\n" << elements << std::endl;
 }

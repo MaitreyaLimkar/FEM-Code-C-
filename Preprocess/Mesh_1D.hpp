@@ -5,10 +5,8 @@
 #ifndef MESH_1D_HPP
 #define MESH_1D_HPP
 
-#include <iostream>
 #include <vector>
-#include <cmath>
-#include <algorithm>
+#include "../eigen-3.4.0/Eigen/Dense"
 
 // Mesh_1D class declaration
 class Mesh_1D {
@@ -18,22 +16,21 @@ private:
     double domain_size = 0.0;
     std::vector<double> NL, EL_1, EL_2, EL_3;
 
+    Eigen::VectorXd nodes;
+    Eigen::MatrixXd elements;
+
+    void generateIndividualMesh();
+
 public:
     // Constructor for Mesh_1D
     Mesh_1D(int PD, double domain_size, int partition, int element_order);
 
     // Generation of mesh
-    static void generate_mesh(int nargout);
+    void generate_mesh();
 
-    // Function declaration for helper function that generates node list and element list
-    static void individual (double domain_size, int partition, int degree, int PD,
-                            std::vector<double> &NL, std::vector<std::vector<double>> &EL);
-
-    // Getter functions to retrieve mesh data
-    [[nodiscard]] std::vector<double> getNodeList() const;
-    [[nodiscard]] std::vector<double> getElementList1() const;
-    [[nodiscard]] std::vector<double> getElementList2() const;
-    [[nodiscard]] std::vector<double> getElementList3() const;
+    // Getters for nodes and elements
+    Eigen::VectorXd getNodes();
+    Eigen::MatrixXi getElements();
 };
 
 #endif //MESH_1D_HPP

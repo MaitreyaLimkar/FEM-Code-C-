@@ -1,7 +1,8 @@
 # ninja log v6
 6649	7044	1729332249430317088	FEM_code	a3aa340de8c2f3e5
-65	426	7512191760436122	build.ninja	360e9a5e2ce54d68
-2	455	7510526907312178	CMakeFiles/FEM_code.dir/main.cpp.obj	b8fc98dd6f048cb7
+65	426	7513070385704161	build.ninja	360e9a5e2ce54d68
+9	450	7513068219139072	CMakeFiles/FEM_code.dir/main.cpp.obj	1960a0799de520c6
 814	2676	7510534707748501	FEM_code.exe	dd1e87effc71b5e8
-5	579	7510526907347195	CMakeFiles/FEM_code.dir/Node/Node.cpp.obj	de6bbd396969c009
+14	540	7513068219188960	CMakeFiles/FEM_code.dir/Node/Node.cpp.obj	a2658d52c5bf332a
 5	813	7510534699662204	CMakeFiles/FEM_code.dir/Preprocess/Mesh_1D.cpp.obj	eb80ee125977e17e
+5	1367	7513072643995824	CMakeFiles/FEM_code.dir/main.cpp.obj	1960a0799de520c6
