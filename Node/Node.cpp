@@ -1,100 +1,24 @@
 #include "Node.hpp"
-#include <stdexcept>  // For exception handling
 
-// Constructor Implementation
-Node::Node(int nodeNumberInput, int problemDimensionInput, const std::vector<double>& materialPositionInput, const std::vector<int>& elementListInput)
-        : problemDimension(problemDimensionInput),
-          nodeNumber(nodeNumberInput),
-          materialPosition(materialPositionInput),
-          spatialPosition(materialPositionInput), // Initialize spatialPosition with the same values as materialPosition
-          elementList(elementListInput),
-          boundaryConditions(problemDimensionInput, 1.0),          // Initialize with ones
-          boundaryConditionValues(problemDimensionInput, 0.0),     // Initialize with zeros
-          degreesOfFreedom(problemDimensionInput, 0.0)             // Initialize with zeros
-{
-    // Validate the size of materialPosition
-    if (static_cast<int>(materialPosition.size()) != problemDimension) {
-        throw std::invalid_argument("Size of materialPosition does not match problemDimension.");
-    }
+#include <algorithm>  // for std::fill
 
-    // Optionally, validate other inputs (e.g., elementList size)
-    if (elementList.empty()) {
-        throw std::invalid_argument("Element list (elementList) cannot be empty.");
-    }
-
-    // Initialize Gauss Point related vectors
-    int gaussPointSize = 2 * problemDimension * problemDimension; // PD*PD + PD*PD = 2*PD*PD
-
-    gaussPointBoundaryConditions = std::vector<double>(gaussPointSize, 1.0); // Initialize with ones
-    gaussPointDegreesOfFreedom = std::vector<double>(gaussPointSize, 0.0);    // Initialize with zeros
-    gaussPointValues = std::vector<double>(gaussPointSize, 0.0);              // Initialize with zeros
+Node::Node(int Nr, int PD, const std::vector<double>& X, const std::vector<double>& x, const std::vector<int>& ElL)
+        : PD(PD), Nr(Nr), X(X), x(x), ElL(ElL) {
+    initializeVectors(PD);
 }
 
-// Destructor Implementation
-Node::~Node() {
-    // No manual cleanup required for std::vector
-    // Optional: Uncomment the following line for debugging purposes
-    // std::cout << "Destructor called for Node Number: " << nodeNumber << std::endl;
-}
+void Node::initializeVectors(int PD) {
+    // Initialize BC with ones
+    BC.resize(PD, 1);
 
-// Getter Implementations
-int Node::getProblemDimension() const {
-    return problemDimension;
-}
+    // Initialize BCval and DOF with zeros
+    BCval.resize(PD, 0.0);
+    DOF.resize(PD, 0);
 
-int Node::getNodeNumber() const {
-    return nodeNumber;
+    // Initialize GP_BC, GP_DOF, GP_vals with respective sizes and values
+    // This assumes a size of PD * PD + PD * PD as specified in the MATLAB code
+    size_t size = PD * PD + PD * PD;
+    GP_BC.resize(size, 1);
+    GP_DOF.resize(size, 0);
+    GP_vals.resize(size, 0.0);
 }
-
-const std::vector<double>& Node::getMaterialPosition() const {
-    return materialPosition;
-}
-
-const std::vector<double>& Node::getSpatialPosition() const {
-    return spatialPosition;
-}
-
-const std::vector<int>& Node::getElementList() const {
-    return elementList;
-}
-
-const std::vector<double>& Node::getBoundaryConditions() const {
-    return boundaryConditions;
-}
-
-const std::vector<double>& Node::getBoundaryConditionValues() const {
-    return boundaryConditionValues;
-}
-
-const std::vector<double>& Node::getDegreesOfFreedom() const {
-    return degreesOfFreedom;
-}
-
-const std::vector<double>& Node::getGaussPointBoundaryConditions() const {
-    return gaussPointBoundaryConditions;
-}
-
-const std::vector<double>& Node::getGaussPointDegreesOfFreedom() const {
-    return gaussPointDegreesOfFreedom;
-}
-
-const std::vector<double>& Node::getGaussPointValues() const {
-    return gaussPointValues;
-}
-
-// Setter Implementations
-void Node::setMaterialPosition(const std::vector<double>& newMaterialPosition) {
-    if (static_cast<int>(newMaterialPosition.size()) != problemDimension) {
-        throw std::invalid_argument("Size of newMaterialPosition does not match problemDimension.");
-    }
-    materialPosition = newMaterialPosition;
-}
-
-void Node::setSpatialPosition(const std::vector<double>& newSpatialPosition) {
-    if (static_cast<int>(newSpatialPosition.size()) != problemDimension) {
-        throw std::invalid_argument("Size of newSpatialPosition does not match problemDimension.");
-    }
-    spatialPosition = newSpatialPosition;
-}
-
-// (Optional) Implement other setters as needed

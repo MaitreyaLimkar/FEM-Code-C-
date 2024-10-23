@@ -1,102 +1,69 @@
-//
-// Created by David Valle on 18-Oct-24.
-//
-#include "Initialize.h"
-#include <cmath>   // For std::pow and tolerance comparison
-#include <algorithm> // For std::max
-#include <iostream>  // For debugging purposes
+#include "Initialize.hpp"
+#include <algorithm>  // For std::max_element
 
-void Initialize(int problemDimension,
-                const std::vector<std::vector<double>>& nodeList,
-                const std::vector<std::vector<int>>& elementList,
-                const std::vector<double>& domainSize,
-                const std::vector<int>& elementOrder,
+constexpr double TOLERANCE = 1e-6;
+
+void Initialize(int PD,
+                const std::vector<std::vector<double>>& nl,
+                const std::vector<std::vector<int>>& el,
+                double domain_size,
+                const std::vector<int>& element_order,
                 double lambda,
                 double mu,
-                std::vector<Node>& nodeArray,
-                std::vector<Element>& elementArray) {
+                std::vector<Node>& NL,
+                std::vector<Element>& EL) {
 
-    // Number of nodes (NoN) and number of elements (NoE)
-    int numOfNodes = nodeList.size();
-    int numOfElements = elementList.size();
+    int NoN = nl.size();              // Number of nodes
+    int NoE = el.size();              // Number of elements
 
-    // Tolerance (not currently used in C++, but you can implement tolerance checks if needed)
-    double tol = 1e-6;
-
-    // Determine the number of Gauss Points (NGP) based on problemDimension and elementOrder
-    int maxElementOrder = *std::max_element(elementOrder.begin(), elementOrder.end());
     int NGP = 0;
+    int maxOrder = *std::max_element(element_order.begin(), element_order.end());
 
-    switch (problemDimension) {
+    switch (PD) {
         case 1:
-            switch (maxElementOrder) {
-                case 1: NGP = 2; break;
-                case 2: NGP = 3; break;
-                case 3: NGP = 4; break;
-                case 4: NGP = 5; break;
-            }
+            NGP = (maxOrder == 1) ? 2 : (maxOrder == 2) ? 3 : (maxOrder == 3) ? 4 : 5;
             break;
         case 2:
-            switch (maxElementOrder) {
-                case 1: NGP = 4; break;
-                case 2: NGP = 9; break;
-                case 3: NGP = 16; break;
-                case 4: NGP = 25; break;
-            }
+            NGP = (maxOrder == 1) ? 4 : (maxOrder == 2) ? 9 : (maxOrder == 3) ? 16 : 25;
             break;
         case 3:
-            switch (maxElementOrder) {
-                case 1: NGP = 8; break;
-                case 2: NGP = 27; break;
-                case 3: NGP = 64; break;
-                case 4: NGP = 125; break;
-            }
+            NGP = (maxOrder == 1) ? 8 : (maxOrder == 2) ? 27 : (maxOrder == 3) ? 64 : 125;
             break;
+        default:
+            throw std::invalid_argument("Invalid problem dimension PD.");
     }
 
     // Initialize Nodes
-    nodeArray.resize(numOfNodes);  // Resize the nodeArray to store the nodes
+    for (int i = 0; i < NoN; ++i) {
+        std::vector<int> ElL;
 
-    for (int i = 0; i < numOfNodes; ++i) {
-        // Element list for the node (list of elements attached to the node)
-        std::vector<int> elementListForNode;
-        for (int j = 0; j < numOfElements; ++j) {
-            if (std::find(elementList[j].begin(), elementList[j].end(), i + 1) != elementList[j].end()) {
-                elementListForNode.push_back(j);
+        for (int j = 0; j < NoE; ++j) {
+            if (std::find(el[j].begin(), el[j].end(), i + 1) != el[j].end()) {
+                ElL.push_back(j + 1);  // 1-based index as in MATLAB
             }
         }
 
-        // Get material position of node i
-        std::vector<double> materialPosition = nodeList[i];
-        std::vector<double> spatialPosition = materialPosition;  // Initialize spatial position with material position
+        std::vector<double> X(nl[i].begin(), nl[i].end());
+        std::vector<double> x = X;
 
-        // Create a Node object and store it in nodeArray
-        nodeArray[i] = Node(i + 1, problemDimension, materialPosition, elementListForNode);
+        NL.emplace_back(Node(i + 1, PD, X, x, ElL));  // Adding nodes, converting MATLAB 1-based to C++ 0-based
     }
 
     // Initialize Elements
-    elementArray.resize(numOfElements);  // Resize the elementArray to store the elements
+    int NPE = el[0].size();  // Nodes per element
 
-    for (int i = 0; i < numOfElements; ++i) {
-        // Node list for the element
-        std::vector<int> nodeListForElement = elementList[i];
+    for (int i = 0; i < NoE; ++i) {
+        std::vector<int> NdL = el[i];
+        std::vector<std::vector<double>> X(PD, std::vector<double>(NPE));
 
-        // Material and spatial positions for the element
-        std::vector<std::vector<double>> materialPosition(problemDimension, std::vector<double>(nodeListForElement.size()));
-        std::vector<std::vector<double>> spatialPosition(problemDimension, std::vector<double>(nodeListForElement.size()));
-
-        // Fill in material and spatial positions from node data
-        for (int j = 0; j < nodeListForElement.size(); ++j) {
-            const Node& node = nodeArray[nodeListForElement[j] - 1];  // -1 for zero-based index
-            for (int k = 0; k < problemDimension; ++k) {
-                materialPosition[k][j] = node.getMaterialPosition()[k];
-                spatialPosition[k][j] = node.getSpatialPosition()[k];
+        for (int j = 0; j < NPE; ++j) {
+            for (int d = 0; d < PD; ++d) {
+                X[d][j] = NL[NdL[j] - 1].X[d];  // 0-based index adjustment for nodes
             }
         }
 
-        // Create an Element object and store it in elementArray
-        elementArray[i] = Element(i + 1, problemDimension, nodeListForElement, materialPosition, spatialPosition, NGP, elementOrder[i], lambda, mu);
+        std::vector<std::vector<double>> x = X;
+
+        EL.emplace_back(Element(i + 1, PD, NdL, X, x, NGP, element_order[i], lambda, mu));
     }
 }
-
-#include "Initilization.hpp"
