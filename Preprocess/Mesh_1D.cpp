@@ -1,7 +1,9 @@
 //
 // Created by trueno on 10/13/24.
 //
-
+/*
+ Destructor was never implemented. Implement it for the next assignment.
+ */
 #include "Mesh_1D.hpp"
 //#include "../eigen-3.4.0/Eigen/Dense"
 #include <vector>
